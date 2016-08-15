@@ -16,7 +16,7 @@
 //
 
 #include <robot_pose_ekf/nonlinearanalyticconditionalgaussianodo.h>
-#include <bfl/wrappers/rng/rng.h> // Wrapper around several rng libraries
+#include <wrappers/rng/rng.h> // Wrapper around several rng libraries
 #define NUMCONDARGUMENTS_MOBILE 2
 
 namespace BFL
@@ -57,7 +57,7 @@ namespace BFL
 	double vel_trans = ConditionalArgumentGet(1)(1);
 	double yaw = ConditionalArgumentGet(0)(6);
 
-	df(1,3)=-vel_trans*sin(yaw); 
+	df(1,3)=-vel_trans*sin(yaw);
 	df(2,3)= vel_trans*cos(yaw);
 
 	return df;
@@ -77,4 +77,3 @@ namespace BFL
   }
 
 }//namespace BFL
-
