@@ -14,8 +14,8 @@ find_package(catkin REQUIRED
         std_srvs
         tf
 )
-find_package(Eigen REQUIRED)
-add_definitions(${EIGEN_DEFINITIONS})
+find_package(Eigen3 REQUIRED)
+add_definitions(${EIGEN3_DEFINITIONS})
 
 # dynamic reconfigure
 generate_dynamic_reconfigure_options(
@@ -31,7 +31,7 @@ catkin_package(
 include_directories(
     include
     ${catkin_INCLUDE_DIRS}
-    ${EIGEN_INCLUDE_DIRS}
+    ${EIGEN3_INCLUDE_DIRS}
 )
 
 # move_base
@@ -43,7 +43,7 @@ target_link_libraries(move_base
     ${catkin_LIBRARIES}
     )
 add_dependencies(move_base move_base_gencfg)
-add_dependencies(move_base geometry_msgs_gencpp)
+add_dependencies(move_base geometry_msgs_generate_messages_cpp)
 
 add_executable(move_base_node
   src/move_base_node.cpp

@@ -23,17 +23,18 @@ find_package(catkin REQUIRED
         )
 
 find_package(PCL REQUIRED)
-find_package(Eigen REQUIRED)
+remove_definitions(-DDISABLE_LIBUSB-1.0)
+find_package(Eigen3 REQUIRED)
 find_package(Boost REQUIRED COMPONENTS system thread)
 include_directories(
     include
     ${catkin_INCLUDE_DIRS}
-    ${EIGEN_INCLUDE_DIRS}
+    ${EIGEN3_INCLUDE_DIRS}
     ${PCL_INCLUDE_DIRS}
     ${Boost_INCLUDE_DIRS}
 )
 
-add_definitions(${EIGEN_DEFINITIONS})
+add_definitions(${EIGEN3_DEFINITIONS})
 
 # messages
 add_message_files(
@@ -61,7 +62,7 @@ generate_dynamic_reconfigure_options(
 catkin_package(
     INCLUDE_DIRS
         include
-        ${EIGEN_INCLUDE_DIRS}
+        ${EIGEN3_INCLUDE_DIRS}
         ${PCL_INCLUDE_DIRS}
     LIBRARIES costmap_2d layers
     CATKIN_DEPENDS
@@ -82,7 +83,7 @@ catkin_package(
         voxel_grid
     DEPENDS
         PCL
-        Eigen
+        EIGEN3
         Boost
 )
 
@@ -98,7 +99,7 @@ add_library(costmap_2d
   src/footprint.cpp
   src/costmap_layer.cpp
 )
-add_dependencies(costmap_2d geometry_msgs_gencpp)
+add_dependencies(costmap_2d geometry_msgs_generate_messages_cpp)
 target_link_libraries(costmap_2d
   ${PCL_LIBRARIES}
   ${Boost_LIBRARIES}
@@ -118,16 +119,16 @@ target_link_libraries(layers
 
 add_dependencies(costmap_2d costmap_2d_gencfg)
 add_dependencies(layers costmap_2d_gencfg)
-add_dependencies(costmap_2d costmap_2d_gencpp)
+add_dependencies(costmap_2d costmap_2d_generate_messages_cpp)
 
 add_executable(costmap_2d_markers src/costmap_2d_markers.cpp)
-add_dependencies(costmap_2d_markers visualization_msgs_gencpp)
+add_dependencies(costmap_2d_markers visualization_msgs_generate_messages_cpp)
 target_link_libraries(costmap_2d_markers
     costmap_2d
     )
 
 add_executable(costmap_2d_cloud src/costmap_2d_cloud.cpp)
-add_dependencies(costmap_2d_cloud sensor_msgs_gencpp)
+add_dependencies(costmap_2d_cloud sensor_msgs_generate_messages_cpp)
 target_link_libraries(costmap_2d_cloud
     costmap_2d
     )
